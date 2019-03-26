@@ -15,12 +15,27 @@ Using two datas
 
 ## Install
 
+### Before install
+
+* [Homebrew](https://brew.sh/index_ja.html)
+
 ### Terraform
+
+Install Terraform (0.11.0 or more)
 
 ```
 brew install terraform
+terraform --version
+> Terraform v0.11.10
 ```
 
+Or upgrade Terraform
+
+```
+brew upgrade terraform
+terraform --version
+> Terraform v0.11.10
+```
 ### Elastic Beanstalk CLI
 
 ```
@@ -29,7 +44,7 @@ pip install awsebcli
 
 ## Terraform
 
-### components
+### Components
 
 Depends on resources, The order by origin-datas => weather-schema =>
 es-lib => weather-put-es
@@ -47,6 +62,11 @@ es-lib => weather-put-es
 
 Like below.
 
+- remote-enable is terraform init process downloading terraform remote state(tfstate file).
+- create-env is terraform init process create workspace.
+- plan is terraform dry run.
+- apply is that create AWS resource.
+
 ```
 make remote-enable ENV=aws-training COMPONENT=weather-schema
 make create-env ENV=aws-training COMPONENT=weather-schema
@@ -54,12 +74,17 @@ make plan ENV=aws-training COMPONENT=weather-schema
 make apply ENV=aws-training COMPONENT=weather-schema
 ```
 
+## Create Athena Table
+
+Next step, you create Athena Table using Saved query (named query). 
+
+
 ## Elastic Beanstalk
 
 If you visual maps data, use Dash(https://plot.ly/products/dash/) and
 deploy Elastic Beanstalk.
 
-※After create Athena Table.
+After create Athena Table.
 
 ```
 cd dash_visual/src
