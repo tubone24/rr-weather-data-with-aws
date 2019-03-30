@@ -2,6 +2,21 @@
 
 Data science with AWS tutorial course creating by tubone.
 
+## What is the tutorial course?
+
+This tutorial course is handson you understanding ETL(Extract, Transform, Load) and creating those structure using AWS managed services.
+
+### AWS
+
+This tutorial will be used many managed services such as...
+
+- S3
+- Athena
+- Glue
+- Elastic Beanstalk
+- Lambda
+- Elasticsearch service(not implemented)
+
 ## Datasource
 Weather Data for Recruit Restaurant Competition
 (https://www.kaggle.com/huntermcgushion/rrv-weather-data/discussion/46318)
@@ -121,11 +136,23 @@ make apply ENV=aws-training COMPONENT=weather-schema
 
 Next step, you create Athena Table using Saved query (named query). 
 
-3 tables.
+Run 3 Saved query below with AWS admin console.
 
-- station
-- weather
-- weather_with_station_id
+- create_station_table
+- create_weather_table
+- create_weather_with_station_id_table
+
+## Run Glue clawler and job
+
+Next, you run Glue clawler and job.
+
+Run a clawler below with AWS admin console.
+
+- weather-origin-clawler
+
+Run a job below with AWS admin console.
+
+- create_weather_csv
 
 
 ## Elastic Beanstalk
