@@ -13,4 +13,3 @@ resource "aws_glue_job" "glue_job" {
     "--enable-glue-datacatalog" = ""
   }
 }
-
