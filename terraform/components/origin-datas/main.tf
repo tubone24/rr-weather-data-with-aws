@@ -5,6 +5,7 @@
 locals {
   weather-datas-prefix = "weather-datas/"
   station-datas-prefix = "station-datas/"
+  weather-with-station-id-prefix = "weather-with-station-id/"
 }
 
 module "origin-datas" {

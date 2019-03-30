@@ -6,7 +6,9 @@ weather_table_name = "weather"
 
 station_table_name = "station"
 
-"weather_athena_database" = {
+weather_with_station_id_table_name = "weather_with_station_id"
+
+weather_athena_database = {
   name = "weather_v2"
 }
 

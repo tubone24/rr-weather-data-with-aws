@@ -5,13 +5,14 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
 
-df = pd.read_csv("result.csv", index_col=0)
+df = pd.read_csv("result.csv")
 # Or using s3 bucket.
-# df = pd.read_csv("s3://your-bucket/result.csv", index_col=0)
+# df = pd.read_csv("s3://your-bucket/result.csv")
 
-max_temp = df.groupby("station_id", as_index=False).max()
+mapbox_access_token = "your token"
+# FIXME: input your mapbox token
+# https://docs.mapbox.com/help/how-mapbox-works/access-tokens/
 
-mapbox_access_token = "Your Access Token"
 app = dash.Dash()
 application = app.server
 
@@ -23,21 +24,21 @@ app.layout = html.Div(children=[
         figure={
             "data": [
                 go.Scattermapbox(
-                    lat=max_temp[max_temp["station_id"] == i]["latitude"],
-                    lon=max_temp[max_temp["station_id"] == i]["longitude"],
+                    lat=df[df["station_id"] == i]["latitude"],
+                    lon=df[df["station_id"] == i]["longitude"],
                     mode="markers",
                     marker=dict(
                         symbol="circle",
                         size=16,
                         opacity=0.8,
                         colorscale="RdBu",
-                        cmin=max_temp["avg_temperature"].min(),
-                        color=max_temp[max_temp["station_id"] == i]["avg_temperature"],
-                        cmax=max_temp["avg_temperature"].max(),
+                        cmin=df["avg_temperature"].min(),
+                        color=df[df["station_id"] == i]["avg_temperature"],
+                        cmax=df["avg_temperature"].max(),
                     ),
-                    text=max_temp[max_temp["station_id"] == i]["avg_temperature"],
-                    name=str(max_temp[max_temp["station_id"] == i]["first_name"].values),
-                ) for i in max_temp["station_id"].unique()
+                    text=df[df["station_id"] == i]["avg_temperature"],
+                    name=str(df[df["station_id"] == i]["first_name"].values),
+                ) for i in df["station_id"].unique()
             ],
             'layout':
                 go.Layout(
@@ -47,8 +48,8 @@ app.layout = html.Div(children=[
                         accesstoken=mapbox_access_token,
                         bearing=0,
                         center=dict(
-                            lat=np.mean(max_temp["latitude"]),
-                            lon=np.mean(max_temp["longitude"])
+                            lat=np.mean(df["latitude"]),
+                            lon=np.mean(df["longitude"])
                         ),
                         pitch=100,
                         zoom=6,

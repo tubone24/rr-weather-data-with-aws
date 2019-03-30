@@ -1,8 +1,8 @@
 #####################################
-# S3 modules variables.tf
+# glue modules variables.tf
 #####################################
 
-variable "glue_crawler" {
+variable "glue_job" {
   type = "map"
   default = {
     name = ""

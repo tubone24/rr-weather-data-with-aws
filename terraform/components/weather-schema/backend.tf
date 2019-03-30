@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.11.0"
 
   backend "s3" {
-    key    = "weather-tables/terraform.tfstate"
+    key    = "weather-schema/terraform.tfstate"
     region = "ap-northeast-1"
   }
 }

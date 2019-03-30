@@ -1,9 +1,10 @@
+import sys
 import boto3
 
 athena = boto3.client("athena")
 s3 = boto3.resource("s3")
 
-RESULT_BUCKET = "weather-athena-result-lambda"
+RESULT_BUCKET = sys.argv[1]
 
 
 def main():
@@ -14,21 +15,17 @@ def main():
 
 def select_weather(athena):
     sql = """
-    SELECT weather.datetime,
-       weather.avg_temperature,
-       weather.high_temperature,
-       weather.low_temperature,
-       weather.precipitation,
-       weather.hours_sunlight,
-       weather.avg_wind_speed,
-       weather.path,
+    SELECT 
        weather.station_id,
-       station.prefecture,
-       station.first_name,
-       station.second_name,
-       station.latitude,
-       station.longitude,
-       station.altitude
+       AVG(CAST(weather.avg_temperature AS double)) AS avg_temperature,
+       MAX(CAST(weather.high_temperature AS double)) AS high_temperature,
+       MIN(CAST(weather.low_temperature AS double)) AS low_temperature,
+       MAX(station.prefecture) AS prefecture,
+       MAX(station.first_name) AS first_name,
+       MAX(station.second_name) AS second_name,
+       MAX(station.latitude) AS latitude,
+       MAX(station.longitude) AS longitude,
+       MAX(station.altitude) AS altitude
     FROM (
       SELECT datetime, 
         avg_temperature, 
@@ -37,15 +34,11 @@ def select_weather(athena):
         precipitation, 
         hours_sunlight, 
         avg_wind_speed,
-        "$path" as path,
-        replace(replace("$path", 's3://athena-origin-data20190317/weather-data/'), '.csv') as station_id
-      FROM "weather"."wearher_v2"
+        station_id
+      FROM "weather_v2"."weather_with_station_id"
       WHERE avg_temperature != '' AND
             high_temperature != '' AND
-            low_temperature != '' AND
-            precipitation != '' AND
-            hours_sunlight != '' AND
-            avg_wind_speed != '') as weather
+            low_temperature != '' AND) as weather
     LEFT JOIN ( 
       SELECT id, 
              prefecture,
@@ -54,8 +47,9 @@ def select_weather(athena):
              latitude,
              longitude,
              altitude
-      FROM "weather"."station_v2") as station
-    ON weather.station_id = station.id;
+      FROM "weather_v2"."station") as station
+    ON weather.station_id = station.id
+    GROUP BY station_id;
     """
     results = execute_athena_query(athena, sql)
     return results

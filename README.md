@@ -42,17 +42,60 @@ terraform --version
 pip install awsebcli
 ```
 
+### AWS CLI
+
+Install AWS CLI
+
+```
+brew install awscli
+aws --version
+> aws-cli/1.16.30 
+```
+
+Or upgrade AWS CLI
+
+```
+brew upgrade awscli
+aws --version
+> aws-cli/1.16.30 
+```
+
+### Kaggle
+
+Install Kaggle API
+
+```
+pip install kaggle
+```
+
+### EB CLI
+
+Install Elastic Beanstalk CLI
+
+```
+brew install awsebcli
+```
+
+### Prepare 
+
+```
+make backend ENV=aws-training
+make create-result-bucket ENV=aws-training
+```
+
 ## Terraform
 
 ### Components
 
 Depends on resources, The order by origin-datas => weather-schema =>
-es-lib => weather-put-es
+ extract-weather => es-lib => weather-put-es
 
 - origin-datas
   - origin data buckets
 - weather-schema
-  - Athena schema
+  - Athena schema(station, weather)
+- extract-weather
+  - glue crawler and job(create weather_with_station_id)
 - es-lib
   - Lambda layers for put datas into ElasticSearch
 - weather-put-es
@@ -78,18 +121,31 @@ make apply ENV=aws-training COMPONENT=weather-schema
 
 Next step, you create Athena Table using Saved query (named query). 
 
+3 tables.
+
+- station
+- weather
+- weather_with_station_id
+
 
 ## Elastic Beanstalk
 
 If you visual maps data, use Dash(https://plot.ly/products/dash/) and
 deploy Elastic Beanstalk.
 
-After create Athena Table.
+**After create Athena Table!**
+
+### Commands
+
+Like below.
+
+- execute-athena is execute athena query and download result csv.
+- create-dashboard is create Elastic Beanstalk app
+- deploy-dashboard is deploy dashboard if re-create dash codes.
 
 ```
-cd dash_visual/src
-python download_csv.py
-eb create map-view-dev
+make execute-athena
+make create-dashboard
 ```
 
 ## Demos

@@ -11,6 +11,9 @@ locals {
 
   station_data_bucket =
   "${data.terraform_remote_state.origin-datas.origin-data-backet-name}/${data.terraform_remote_state.origin-datas.station-datas-prefix}"
+
+  weather_with_station_id_bucket =
+  "${data.terraform_remote_state.origin-datas.origin-data-backet-name}/${data.terraform_remote_state.origin-datas.weather-with-station-id-prefix}"
 }
 
 data "template_file" "drop_weather_table" {
@@ -47,6 +50,23 @@ data "template_file" "create_station_table" {
   }
 }
 
+data "template_file" "drop_weather_with_station_id_table" {
+  template = "${file("sql/weather-with-station-id/drop_table.sql")}"
+  vars {
+    database_name = "${var.weather_athena_database["name"]}"
+    table_name = "${var.weather_with_station_id_table_name}"
+  }
+}
+
+data "template_file" "create_weather_with_station_id_table" {
+  template = "${file("sql/weather-with-station-id/create_table.sql")}"
+  vars {
+    database_name = "${var.weather_athena_database["name"]}"
+    table_name = "${var.weather_with_station_id_table_name}"
+    weather_with_station_id_bucket = "${local.weather_with_station_id_bucket}"
+  }
+}
+
 module "weather_database" {
   source = "../../modules/athena/database"
   athena_database = "${local.weather_athena_database}"
@@ -74,4 +94,16 @@ resource "aws_athena_named_query" "create_station_table" {
   name     = "create_station_table"
   database = "${module.weather_database.database_name}"
   query    = "${data.template_file.create_station_table.rendered}"
+}
+
+resource "aws_athena_named_query" "drop_weather_with_station_id_table" {
+  name     = "drop_weather_with_station_id_table"
+  database = "${module.weather_database.database_name}"
+  query    = "${data.template_file.drop_weather_with_station_id_table.rendered}"
+}
+
+resource "aws_athena_named_query" "create_weather_with_station_id_table" {
+  name     = "create_weather_with_station_id_table"
+  database = "${module.weather_database.database_name}"
+  query    = "${data.template_file.create_weather_with_station_id_table.rendered}"
 }

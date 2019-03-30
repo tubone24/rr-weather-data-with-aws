@@ -111,3 +111,8 @@ venv.bak/
 
 # Mac
 .DS_Store
+
+# datasets
+rrv-weather-data.zip
+scripts/tmp_dir
+scripts/upload_datas

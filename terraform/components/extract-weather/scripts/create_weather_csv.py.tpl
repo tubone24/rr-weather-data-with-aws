@@ -16,7 +16,7 @@ job = Job(glueContext)
 job.init(args["JOB_NAME"], args)
 
 # Create Glue DynamicFrame
-datasource0 = glueContext.create_dynamic_frame.from_catalog(database="weather_v2", table_name="glueweather_datas", transformation_ctx="datasource0")
+datasource0 = glueContext.create_dynamic_frame.from_catalog(database="${weather-database}", table_name="${weather-table-name}", transformation_ctx="datasource0")
 
 # Extract necessary column
 applymapping1 = ApplyMapping.apply(frame=datasource0, mappings=[("calendar_date", "string", "date", "string"),
@@ -38,11 +38,11 @@ dataFrame = dropnullfields3.toDF()
 add_filename = dataFrame.withColumn("file_name", input_file_name())
 
 # Convert into station_id
-add_station_id = add_filename.withColumn("station_id", regexp_replace("file_name", "s3://athena-origin-data20190324/weather-datas/", ""))
+add_station_id = add_filename.withColumn("station_id", regexp_replace("file_name", "s3://${weather-origin-bucket}/${weather-datas-prefix}", ""))
 fix_station_id = add_station_id.withColumn("station_id", regexp_replace("station_id", ".csv", ""))
 
 # Write CSV with compression
-fix_station_id.write.mode("append").csv("s3://athena-origin-data20190324/weather-with-station-id/", compression="gzip")
+fix_station_id.write.mode("append").csv("s3://${weather-origin-bucket}/${weather-with-station-id-prefix}", compression="gzip")
 
 # Write parquet
 # fix_station_id.write.mode("overwrite").parquet("s3://athena-origin-data20190317/weather-data-with-station-id")
