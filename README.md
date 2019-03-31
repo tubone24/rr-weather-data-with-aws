@@ -191,4 +191,4 @@ make create-dashboard
 
 Visual interactive Japan map using EB and Dash.
 
-![maps](https://raw.githubusercontent.com/tubone24/rr-weather-data-with-aws/master/docs/images/maps.gif)
+![maps](https://raw.githubusercontent.com/tubone24/rr-weather-data-with-aws/master/docs/images/map2.gif)
