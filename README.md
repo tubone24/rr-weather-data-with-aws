@@ -189,6 +189,6 @@ make create-dashboard
 
 ## Demos
 
-Visual maps data using Elastic Beanstalk
+Visual interactive Japan map using EB and Dash.
 
-![maps](https://raw.githubusercontent.com/tubone24/rr-weather-data-with-aws/master/docs/images/maps.png)
+![maps](https://raw.githubusercontent.com/tubone24/rr-weather-data-with-aws/master/docs/images/maps.gif)
