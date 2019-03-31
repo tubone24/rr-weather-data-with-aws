@@ -17,8 +17,6 @@ This tutorial will be used many managed services such as...
 - Lambda
 - Elasticsearch service(not implemented)
 
-
-
 ## Datasource
 Weather Data for Recruit Restaurant Competition
 (https://www.kaggle.com/huntermcgushion/rrv-weather-data/discussion/46318)
