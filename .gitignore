@@ -118,4 +118,4 @@ scripts/tmp_dir
 scripts/upload_datas
 
 # Git
-!.gitkeep
+!.gitkeep.ipynb_checkpoints
