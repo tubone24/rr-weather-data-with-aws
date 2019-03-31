@@ -17,6 +17,17 @@ This tutorial will be used many managed services such as...
 - Lambda
 - Elasticsearch service(not implemented)
 
+#### Architecture
+
+1. Collect weather datas on weather stations in all locations in Japan. In the tutorial, you can download from kaggle using kaggle API.
+2. Put datas in origin buckets. Weather datas are put `weather-datas` , station location datas are `station-datas` prefix.
+3. Crawl `weather-datas` and ETL job because of adding `station_id` .
+4. Execute Athena queries because of creating several CSVs such as `station` and `weather_with_station_id` .
+5. Put query results in the result bucket. Create Elastic Beanstalk and run `Dash` .
+6. Or put Elasticsearch using the Lambda function.
+
+![architecture](https://raw.githubusercontent.com/tubone24/rr-weather-data-with-aws/master/docs/images/architect.png)
+
 ## Datasource
 Weather Data for Recruit Restaurant Competition
 (https://www.kaggle.com/huntermcgushion/rrv-weather-data/discussion/46318)
