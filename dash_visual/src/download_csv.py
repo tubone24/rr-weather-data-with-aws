@@ -8,73 +8,37 @@ RESULT_BUCKET = sys.argv[1]
 
 
 def main():
-    query_exeqution_id = select_avgtemp_by_prefecture(athena)
-    print("Athena select_avgtemp_by_prefecture Run success")
+    query_exeqution_id = select_temp_by_prefecture(athena)
+    print("Athena select_temp_by_prefecture Run success")
     download_csv_to_local(s3, RESULT_BUCKET, query_exeqution_id, "result_all.csv")
     query_exeqution_id = select_avgtemp_at_kanto(athena)
     print("Athena select_avgtemp_at_kanto Run success")
     download_csv_to_local(s3, RESULT_BUCKET, query_exeqution_id, "result_kanto.csv")
+    query_exeqution_id = select_avgtemp_japan(athena)
+    print("Athena select_avgtemp_japan Run success")
+    download_csv_to_local(s3, RESULT_BUCKET, query_exeqution_id, "result_timeserias_all.csv")
 
 
-def select_weather(athena):
+def select_temp_by_prefecture(athena):
     sql = """
-    SELECT 
-       weather.station_id,
+        SELECT 
+       MAX(station.prefecture) AS prefecture,
        AVG(CAST(weather.avg_temperature AS double)) AS avg_temperature,
        MAX(CAST(weather.high_temperature AS double)) AS high_temperature,
        MIN(CAST(weather.low_temperature AS double)) AS low_temperature,
-       MAX(station.prefecture) AS prefecture,
-       MAX(station.first_name) AS first_name,
-       MAX(station.second_name) AS second_name,
        MAX(station.latitude) AS latitude,
        MAX(station.longitude) AS longitude,
        MAX(station.altitude) AS altitude
     FROM (
       SELECT datetime, 
-        avg_temperature, 
-        high_temperature, 
-        low_temperature, 
-        precipitation, 
-        hours_sunlight, 
-        avg_wind_speed,
+        avg_temperature,
+        high_temperature,
+        low_temperature,
         station_id
       FROM "weather_v2"."weather_with_station_id"
       WHERE avg_temperature != '' AND
             high_temperature != '' AND
             low_temperature != '') as weather
-    LEFT JOIN ( 
-      SELECT id, 
-             prefecture,
-             first_name,
-             second_name,
-             latitude,
-             longitude,
-             altitude
-      FROM "weather_v2"."station") as station
-    ON weather.station_id = station.id
-    GROUP BY station_id;
-    """
-    results = execute_athena_query(athena, sql)
-    return results
-
-
-def select_avgtemp_by_prefecture(athena):
-    sql = """
-        SELECT 
-       MAX(station.prefecture) AS prefecture,
-       AVG(CAST(weather.avg_temperature AS double)) AS avg_temperature,
-       MAX(station.latitude) AS latitude,
-       MAX(station.longitude) AS longitude,
-       MAX(station.altitude) AS altitude
-    FROM (
-      SELECT datetime, 
-        avg_temperature, 
-        precipitation, 
-        hours_sunlight, 
-        avg_wind_speed,
-        station_id
-      FROM "weather_v2"."weather_with_station_id"
-      WHERE avg_temperature != '') as weather
     LEFT JOIN ( 
       SELECT id, 
              prefecture,
@@ -119,7 +83,22 @@ def select_avgtemp_at_kanto(athena):
               station.prefecture = 'chiba' OR
               station.prefecture = 'gunma' OR
               station.prefecture = 'tochigi' OR
-              station.prefecture = 'ibaraki';
+              station.prefecture = 'ibaraki'
+    ORDER BY weather.datetime;
+    """
+    results = execute_athena_query(athena, sql)
+    return results
+
+
+def select_avgtemp_japan(athena):
+    sql = """
+    SELECT 
+       MAX(datetime) AS datetime,
+       AVG(CAST(avg_temperature AS double)) AS avg_temperature
+    FROM "weather_v2"."weather_with_station_id"
+    WHERE avg_temperature != ''
+    GROUP BY datetime
+    ORDER BY datetime;
     """
     results = execute_athena_query(athena, sql)
     return results
