@@ -86,3 +86,11 @@ create-dashboard:
 deploy-dashboard:
 	@${CD_DASH_VISUAL_SRC} && \
 		eb create map-view-dev
+
+destroy-dashboard:
+	@${CD_DASH_VISUAL_SRC} && \
+		eb terminate map-view-dev
+
+run-dash-local:
+	@${CD_DASH_VISUAL_SRC} && \
+		python application.py

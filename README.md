@@ -39,6 +39,20 @@ Using two datas
   - weather data
 - weather_stations.csv
   - station data (include longitude latitude)
+  
+### How to download datasets?
+
+Run the command below. Using kaggle API.
+
+```
+make download-dataset
+```
+
+If you put S3 origin-datas buckets, run the command below.
+
+```
+make upload-weather-data
+```
 
 ## Install
 
@@ -173,6 +187,16 @@ If you visual maps data, use Dash(https://plot.ly/products/dash/) and
 deploy Elastic Beanstalk.
 
 **After create Athena Table!**
+
+### Before deploy
+
+This program is used [Mapbox](https://www.mapbox.com/) and set an access token on [application.py](https://github.com/tubone24/rr-weather-data-with-aws/blob/master/dash_visual/src/application.py).
+
+```python: application.py
+MAPBOX_ACCESS_TOKEN = "your token"
+# FIXME: input your mapbox token
+# https://docs.mapbox.com/help/how-mapbox-works/access-tokens/
+```
 
 ### Commands
 

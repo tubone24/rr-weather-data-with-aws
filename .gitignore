@@ -116,3 +116,6 @@ venv.bak/
 rrv-weather-data.zip
 scripts/tmp_dir
 scripts/upload_datas
+
+# Git
+!.gitkeep
