@@ -13,7 +13,7 @@ jobs:
           name: Prepare run appication
           command: |
             cd dash_visual/src
-            pip install --user -r requirements.txt 
+            sudo pip install -r requirements.txt 
             mv ../tests/e2e/assets/result_all.csv .
             mv ../tests/e2e/assets/result_kanto.csv .
             mv ../tests/e2e/assets/result_timeserias_all.csv .
@@ -25,7 +25,7 @@ jobs:
           name: Prepare e2e test
           command: |
             cd dash_visual/tests/e2e
-            pip install --user -r requirements-test.txt
+            sudo pip install -r requirements-test.txt
       - run:
           name: Run e2e test
           command: cd dash_visual/tests/e2e && pytest e2e.py
