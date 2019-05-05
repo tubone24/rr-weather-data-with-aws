@@ -12,7 +12,7 @@ jobs:
       - run:
           name: Prepare run appication
           command: |
-            cd src
+            cd dash_visual/src
             pip install -r requirements.txt
             mv ../tests/e2e/assets/result_all.csv .
             mv ../tests/e2e/assets/result_kanto.csv .
