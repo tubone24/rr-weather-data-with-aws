@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 import dash
@@ -13,7 +14,7 @@ df_timeserias_all = pd.read_csv("result_timeserias_all.csv")
 # Or using s3 bucket.
 # df = pd.read_csv("s3://your-bucket/result.csv")
 
-MAPBOX_ACCESS_TOKEN = "your token"
+MAPBOX_ACCESS_TOKEN = os.getenv("MAPBOX_ACCESS_TOKEN", "YOUR TOKEN")
 # FIXME: input your mapbox token
 # https://docs.mapbox.com/help/how-mapbox-works/access-tokens/
 

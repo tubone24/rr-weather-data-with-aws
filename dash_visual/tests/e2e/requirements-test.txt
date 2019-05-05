@@ -1,0 +1,2 @@
+seleniumbase==1.23.6
+pytest==4.4.1

@@ -1,0 +1,45 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/dash_visual
+    docker:
+      - image: circleci/python:3.6-stretch-browsers
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+    steps:
+      - checkout
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+      - run: mkdir test-results && sudo chown -R circleci:circleci test-results
+      - run:
+          command: |
+            sudo pip install pipenv
+            pipenv install --pre
+      - save_cache:
+          key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          paths:
+            - ".venv"
+            - "/usr/local/bin"
+            - "/usr/local/lib/python3.6/site-packages"
+      - run:
+          name: Prepare run appication
+          command: |
+            cd src
+            pipenv run "pip install -r requirements.txt"
+            mv ../tests/e2e/assets/result_all.csv .
+            mv ../tests/e2e/assets/result_kanto.csv .
+            mv ../tests/e2e/assets/result_timeserias_all.csv .
+      - run:
+          name: Run application
+          command: pipenv run "python application.py"
+          background: true
+      - run:
+          name: Prepare e2e test
+          command: |
+            cd ../tests/e2e
+            pipenv run "pip install -r requirements-test.txt"
+      - run:
+          name: Run e2e test
+          command: pipenv run "pytest e2e.py"
+      - store_artifacts:
+          path: tests/e2e/screenshots

@@ -119,3 +119,6 @@ scripts/upload_datas
 
 # Git
 !.gitkeep.ipynb_checkpoints
+
+# serenium screenshots
+screen*.png
