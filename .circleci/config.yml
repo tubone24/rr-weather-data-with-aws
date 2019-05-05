@@ -30,4 +30,4 @@ jobs:
           name: Run e2e test
           command: cd dash_visual/tests/e2e && pytest e2e.py
       - store_artifacts:
-          path: tests/e2e/screenshots
+          path: dash_visual/tests/e2e/screenshots
