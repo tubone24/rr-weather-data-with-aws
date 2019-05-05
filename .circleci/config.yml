@@ -24,6 +24,8 @@ jobs:
       - run:
           name: Prepare run appication
           command: |
+            ls -l
+            pwd
             cd src
             pipenv run "pip install -r requirements.txt"
             mv ../tests/e2e/assets/result_all.csv .
