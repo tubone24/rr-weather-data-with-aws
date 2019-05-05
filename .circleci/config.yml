@@ -24,13 +24,10 @@ jobs:
       - run:
           name: Prepare run appication
           command: |
-            ls -l
-            pwd
-            cd src
-            pipenv run "pip install -r requirements.txt"
-            mv ../tests/e2e/assets/result_all.csv .
-            mv ../tests/e2e/assets/result_kanto.csv .
-            mv ../tests/e2e/assets/result_timeserias_all.csv .
+            cd dash_visual/src && pipenv run "pip install -r requirements.txt"
+            cd dash_visual/src && mv ../tests/e2e/assets/result_all.csv .
+            cd dash_visual/src && mv ../tests/e2e/assets/result_kanto.csv .
+            cd dash_visual/src && mv ../tests/e2e/assets/result_timeserias_all.csv .
       - run:
           name: Run application
           command: pipenv run "python application.py"
