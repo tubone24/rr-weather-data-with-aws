@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/workspace
+    working_directory: ~/workspace/dash_visual
     docker:
       - image: circleci/python:3.6-stretch-browsers
         environment:
@@ -24,7 +24,7 @@ jobs:
       - run:
           name: Prepare run appication
           command: |
-            cd dash_visual/src && pipenv run "pip install -r requirements.txt"
+            cd pipenv run "pip install -r src/requirements.txt"
             cd dash_visual/src && mv ../tests/e2e/assets/result_all.csv .
             cd dash_visual/src && mv ../tests/e2e/assets/result_kanto.csv .
             cd dash_visual/src && mv ../tests/e2e/assets/result_timeserias_all.csv .
