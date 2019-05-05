@@ -4,30 +4,19 @@ jobs:
     working_directory: ~/workspace/dash_visual
     docker:
       - image: circleci/python:3.6-stretch-browsers
-        environment:
-          PIPENV_VENV_IN_PROJECT: true
     steps:
       - checkout
       - run: sudo chown -R circleci:circleci /usr/local/bin
       - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - run: mkdir test-results && sudo chown -R circleci:circleci test-results
       - run:
-          command: |
-            sudo pip install pipenv
-            pipenv install --pre
-      - save_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-          paths:
-            - ".venv"
-            - "/usr/local/bin"
-            - "/usr/local/lib/python3.6/site-packages"
-      - run:
           name: Prepare run appication
           command: |
-            cd pipenv run "pip install -r src/requirements.txt"
-            cd dash_visual/src && mv ../tests/e2e/assets/result_all.csv .
-            cd dash_visual/src && mv ../tests/e2e/assets/result_kanto.csv .
-            cd dash_visual/src && mv ../tests/e2e/assets/result_timeserias_all.csv .
+            cd src
+            pip install -r requirements.txt
+            mv ../tests/e2e/assets/result_all.csv .
+            mv ../tests/e2e/assets/result_kanto.csv .
+            mv ../tests/e2e/assets/result_timeserias_all.csv .
       - run:
           name: Run application
           command: pipenv run "python application.py"
