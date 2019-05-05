@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/rr-weather-data-with-aws/dash_visual
+    working_directory: ~/workspace
     docker:
       - image: circleci/python:3.6-stretch-browsers
         environment:
