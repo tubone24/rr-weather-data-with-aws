@@ -222,3 +222,19 @@ Visual interactive Japan map using EB and Dash.
 Make Japanese tutorial using Jupyter and Gist.
 
 [Chapter1_概要](https://gist.github.com/tubone24/0cda077c3bc9d4159379292aba31b2a3) 
+
+## Tests
+
+### e2e test
+
+Use seleniumbase.
+
+```
+cd dash_visual/tests/e2e
+pip install -r requirements-test.txt
+pytest e2e.py
+```
+
+## CI
+
+Use [CircleCI](https://circleci.com/gh/tubone24/rr-weather-data-with-aws)
