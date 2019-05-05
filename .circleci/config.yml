@@ -13,21 +13,21 @@ jobs:
           name: Prepare run appication
           command: |
             cd dash_visual/src
-            pip install -r requirements.txt
+            pip install --user -r requirements.txt 
             mv ../tests/e2e/assets/result_all.csv .
             mv ../tests/e2e/assets/result_kanto.csv .
             mv ../tests/e2e/assets/result_timeserias_all.csv .
       - run:
           name: Run application
-          command: pipenv run "python application.py"
+          command: python application.py
           background: true
       - run:
           name: Prepare e2e test
           command: |
             cd ../tests/e2e
-            pipenv run "pip install -r requirements-test.txt"
+            pip install --user -r requirements-test.txt
       - run:
           name: Run e2e test
-          command: pipenv run "pytest e2e.py"
+          command: pytest e2e.py
       - store_artifacts:
           path: tests/e2e/screenshots
