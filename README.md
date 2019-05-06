@@ -2,6 +2,10 @@
 
 Data science with AWS tutorial course creating by tubone.
 
+***
+
+[![CircleCI](https://circleci.com/gh/tubone24/rr-weather-data-with-aws/tree/master.svg?style=svg)](https://circleci.com/gh/tubone24/rr-weather-data-with-aws/tree/master)
+
 ## What is the tutorial course?
 
 This tutorial course is handson you understanding ETL(Extract, Transform, Load) and creating those structure using AWS managed services.

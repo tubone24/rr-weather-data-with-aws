@@ -18,6 +18,8 @@ MAPBOX_ACCESS_TOKEN = os.getenv("MAPBOX_ACCESS_TOKEN", "YOUR TOKEN")
 # FIXME: input your mapbox token
 # https://docs.mapbox.com/help/how-mapbox-works/access-tokens/
 
+PORT = os.getenv("PORT", "8080")
+
 app = dash.Dash()
 application = app.server
 
@@ -191,4 +193,4 @@ def update_temp_timeseries(hoverData):
 
 
 if __name__ == "__main__":
-    application.run(debug=True, port=8080)
+    application.run(debug=True, port=int(PORT))
