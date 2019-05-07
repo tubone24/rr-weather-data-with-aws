@@ -193,4 +193,4 @@ def update_temp_timeseries(hoverData):
 
 
 if __name__ == "__main__":
-    application.run(debug=True, port=int(PORT))
+    application.run(debug=True, host="0.0.0.0", port=int(PORT))
