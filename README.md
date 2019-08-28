@@ -10,6 +10,13 @@ Data science with AWS tutorial course creating by tubone.
 
 This tutorial course is handson you understanding ETL(Extract, Transform, Load) and creating those structure using AWS managed services.
 
+### Boot Camp for Data science with AWS
+
+If you are interested in Data science with AWS but being unskilled, Read the Text below
+
+[AWSで作る分析基盤 (Japanese)
+](https://www.slideshare.net/tubone24/aws-158992259)
+
 ### AWS
 
 This tutorial will be used many managed services such as...
