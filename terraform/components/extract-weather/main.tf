@@ -23,7 +23,7 @@ module "script-location" {
 #####################################
 
 data "template_file" "create_weather_csv_tpl" {
-  template = "${file("scripts/create_weather_csv.py.tpl")}"
+  template = "${file("scripts/src/create_weather_csv.py.tpl")}"
   vars {
     weather-database = "${var.weather-origin-glue-database["name"]}"
     weather-table-name = "${module.weather-origin-clawler.table_prefix}weather_datas"
@@ -43,7 +43,7 @@ resource "aws_s3_bucket_object" "upload-glue-job-script" {
   acl    = "private"
   key    = "create_weather_csv.py"
   source = "scripts/create_weather_csv.py"
-  etag = "${md5("scripts/create_weather_csv.py")}"
+  etag = "${md5("scripts/src/create_weather_csv.py")}"
 }
 
 #####################################
